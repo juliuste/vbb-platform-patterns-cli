@@ -40,7 +40,6 @@ if (opt.version === true) {
 
 
 const showError = function (err) {
-	console.error(err)
 	if (process.env.NODE_DEBUG === 'vbb-platform-patterns-cli') console.error(err)
 	process.stderr.write(chalk.red(err.message) + '\n')
 	process.exit(err.code || 1)
