@@ -1,0 +1,60 @@
+{
+	"name": "vbb-platform-patterns-cli",
+	"description": "CLI for editing vbb-platform-patterns.",
+	"version": "0.0.1",
+	"keywords": [
+		"vbb",
+		"berlin",
+		"brandenburg",
+		"verkehrsverbund",
+		"public",
+		"transport",
+		"platform",
+		"pattern",
+		"patterns",
+		"color",
+		"colour",
+		"colors",
+		"colours",
+		"nahverkehr",
+		"ubahn",
+		"sbahn",
+		"metro",
+		"train",
+		"germany",
+		"rail",
+		"vbb-platform-patterns"
+	],
+	"bin": {
+		"vbb-platform-patterns": "./bin.js"
+	},
+	"author": "Julius Tens <mail@juliustens.eu>",
+	"homepage": "https://github.com/juliuste/vbb-platform-patterns-cli",
+	"repository": "juliuste/vbb-platform-patterns-cli",
+	"bugs": "https://github.com/juliuste/vbb-platform-patterns-cli/issues",
+	"license": "ISC",
+	"engines": {
+		"node": ">=6"
+	},
+	"files": [
+		"lib.js",
+		"bin.js"
+	],
+	"dependencies": {
+		"chalk": "^2.3.2",
+		"cli-autocomplete": "^0.4.1",
+		"css-color-names": "0.0.4",
+		"is-url": "^1.2.2",
+		"lodash.pick": "^4.4.0",
+		"lodash.sortby": "^4.7.0",
+		"lodash.uniqby": "^4.7.0",
+		"mri": "^1.1.0",
+		"multiselect-prompt": "^0.3.1",
+		"so": "^1.0.1",
+		"text-prompt": "^0.1.2",
+		"vbb-client": "^3.0.1",
+		"vbb-lines-at": "^3.11.0",
+		"vbb-util": "^0.10.2"
+	},
+	"scripts": {}
+}
