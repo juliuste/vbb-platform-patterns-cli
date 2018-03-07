@@ -6,6 +6,7 @@ const textPrompt = require('text-prompt')
 const util = require('vbb-util')
 const chalk = require('chalk')
 const multiselectPrompt = require('multiselect-prompt')
+const selectPrompt = require('select-prompt')
 const linesAt = require('vbb-lines-at')
 const uniqBy = require('lodash.uniqby')
 const sortBy = require('lodash.sortby')
@@ -103,13 +104,47 @@ const parseColors = (c) => {
 	return c
 }
 
-// Image URL
-const parseImage = (t) => {
-	if(!t) t = null
-	if(t && !isURL(t)) throw new Error('Invalid image url')
-	return t
+// Image Source
+const sources = [
+	{title: 'None', value: null},
+	{title: 'Wikimedia Commons', value: 'commons'},
+	{title: 'Flickr', value: 'flickr'}
+]
+const queryImageSource = (msg) => new Promise((yay, nay) =>
+	selectPrompt(msg, sources)
+	.on('abort', v => nay(new Error(`Rejected with ${v}.`)))
+	.on('submit', yay)
+)
+
+// Commons Filename
+const parseCommonsFilename = (c) => {
+	if(!c || c.length <= 0) throw new Error('Invalid commons filename')
+	return c
 }
-const queryImage = (msg) => new Promise((yay, nay) =>
+const queryCommonsFilename = (msg) => new Promise((yay, nay) =>
+	textPrompt(msg)
+	.on('abort', (v) => nay(new Error(`Rejected with ${v}.`)))
+	.on('submit', yay)
+)
+
+// Flickr User
+const parseFlickrUser = (u) => {
+	if(!u || u.length <= 0) throw new Error('Invalid flickr username')
+	return u
+}
+const queryFlickrUser = (msg) => new Promise((yay, nay) =>
+	textPrompt(msg)
+	.on('abort', (v) => nay(new Error(`Rejected with ${v}.`)))
+	.on('submit', yay)
+)
+
+// Flickr Image ID
+const parseFlickrImage = (i) => {
+	i = +i
+	if(!i || i < 0 || !Number.isInteger(i)) throw new Error('Invalid flickr image ID')
+	return i
+}
+const queryFlickrImage = (msg) => new Promise((yay, nay) =>
 	textPrompt(msg)
 	.on('abort', (v) => nay(new Error(`Rejected with ${v}.`)))
 	.on('submit', yay)
@@ -134,6 +169,9 @@ module.exports = {
 	parseStation, queryStation,
 	parseLines, queryLines,
 	parseColors, queryColors,
-	parseImage, queryImage,
+	queryImageSource,
+	parseCommonsFilename, queryCommonsFilename,
+	parseFlickrUser, queryFlickrUser,
+	parseFlickrImage, queryFlickrImage,
 	buildEntry
 }

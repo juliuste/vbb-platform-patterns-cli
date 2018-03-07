@@ -47,7 +47,7 @@ const showError = function (err) {
 }
 
 const main = so(function* (opt) {
-	let station, lines, previousStation, nextStation, colors, image
+	let station, lines, previousStation, nextStation, colors, source
 
 	// query station
 	station = yield lib.queryStation('Station?')
@@ -89,12 +89,40 @@ const main = so(function* (opt) {
 		showError(err)
 	}
 
-	// query image url
-	image = yield lib.queryImage('Pattern image URL (can be empty)?')
-	try {
-		image = lib.parseImage(image)
-	} catch (err) {
-		showError(err)
+	// query image source
+	source = yield lib.queryImageSource('Pattern image source?')
+
+	let image = null
+	// commons
+	if(source === 'commons'){
+		// query commons filename
+		let filename = yield lib.queryCommonsFilename('Wikimedia Commons filename?')
+		try {
+			filename = lib.parseCommonsFilename(filename)
+		} catch (err) {
+			showError(err)
+		}
+		image = {source, id: filename}
+	}
+	// flickr
+	else if(source === 'flickr'){
+		// query flickr username
+		let username = yield lib.queryFlickrUser('Flickr username?')
+		try {
+			username = lib.parseFlickrUser(username)
+		} catch (err) {
+			showError(err)
+		}
+
+		// query flickr username
+		let imageID = yield lib.queryFlickrImage('Flickr image ID?')
+		try {
+			imageID = lib.parseFlickrImage(imageID)
+		} catch (err) {
+			showError(err)
+		}
+
+		image = {source, id: imageID, user: username}
 	}
 
 	const entry = lib.buildEntry({
