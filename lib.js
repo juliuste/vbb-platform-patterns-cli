@@ -9,6 +9,7 @@ const multiselectPrompt = require('multiselect-prompt')
 const selectPrompt = require('select-prompt')
 const linesAt = require('vbb-lines-at')
 const uniqBy = require('lodash.uniqby')
+const uniq = require('lodash.uniq')
 const sortBy = require('lodash.sortby')
 const pick = require('lodash.pick')
 const isURL = require('is-url')
@@ -152,7 +153,7 @@ const buildEntry = (p) => {
 		lines: Object.keys(p.lines).filter(k => p.lines[k]),
 		previousStation: pick(p.previousStation, ['id', 'name']),
 		nextStation: pick(p.nextStation, ['id', 'name']),
-		colors: p.colors,
+		colors: uniq(p.colors),
 		image: p.image
 	}
 	if(!res.image) delete res.image
