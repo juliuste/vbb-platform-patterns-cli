@@ -12,10 +12,8 @@ const uniqBy = require('lodash.uniqby')
 const sortBy = require('lodash.sortby')
 const pick = require('lodash.pick')
 const isURL = require('is-url')
-const cssColors = require('css-color-names')
-
-const css2Colors = ['black', 'silver', 'gray', 'white', 'maroon', 'red', 'purple', 'fuchsia', 'green', 'lime', 'olive', 'yellow', 'navy', 'blue', 'teal', 'aqua', 'orange']
-const allowedColors = pick(cssColors, css2Colors)
+const isHexcolor = require('is-hexcolor')
+const closest = require('closest-css-color')
 
 // STATIONS
 const isStationId = (s) => /^\d{12}$/.test(s.toString())
@@ -86,23 +84,21 @@ const parseLines = (l) => {
 	return l
 }
 
-
-// COLORS
-const colorChoices = Object.keys(allowedColors).map(c => ({
-	value: c,
-	title: chalk.hex(allowedColors[c] || '#fff')(c),
-	selected: false
-}))
-const selected = (items) => items.filter((item) => item.selected).map((item) => item.value)
-const queryColors = (msg) => new Promise((yay, nay) =>
-	multiselectPrompt(msg, colorChoices)
-	.on('abort', (v) => nay(new Error(`Rejected with ${v}.`)))
-	.on('submit', (colors) => yay(selected(colors)))
-)
-const parseColors = (c) => {
-	if(c.length === 0) throw new Error('At least one color must be selected.')
-	return c
+// Color
+const parseColor = (c) => {
+	if(!c) return null
+	if(!isHexcolor(c)) throw new Error('Invalid color')
+	return closest(c)
 }
+const parseNotNullColor = (c) => {
+	if(!c || !isHexcolor(c)) throw new Error('Invalid color')
+	return closest(c)
+}
+const queryColor = (msg) => new Promise((yay, nay) =>
+	textPrompt(msg)
+	.on('abort', (v) => nay(new Error(`Rejected with ${v}.`)))
+	.on('submit', yay)
+)
 
 // Image Source
 const sources = [
@@ -168,7 +164,7 @@ const buildEntry = (p) => {
 module.exports = {
 	parseStation, queryStation,
 	parseLines, queryLines,
-	parseColors, queryColors,
+	parseColor, parseNotNullColor, queryColor,
 	queryImageSource,
 	parseCommonsFilename, queryCommonsFilename,
 	parseFlickrUser, queryFlickrUser,

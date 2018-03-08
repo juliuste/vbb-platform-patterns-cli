@@ -46,10 +46,8 @@ const showError = function (err) {
 }
 
 const main = so(function* (opt) {
-	let station, lines, previousStation, nextStation, colors, source
-
 	// query station
-	station = yield lib.queryStation('Station?')
+	let station = yield lib.queryStation('Station?')
 	try {
 		station = yield lib.parseStation(station)
 	} catch (err) {
@@ -57,7 +55,7 @@ const main = so(function* (opt) {
 	}
 
 	// query lines
-	lines = yield lib.queryLines('Lines (multiple selections allowed)?', station.id)
+	let lines = yield lib.queryLines('Lines (multiple selections allowed)?', station.id)
 	try {
 		lines = lib.parseLines(lines)
 	} catch (err) {
@@ -65,7 +63,7 @@ const main = so(function* (opt) {
 	}
 
 	// query previousStation
-	previousStation = yield lib.queryStation('Previous station (can be empty)?')
+	let previousStation = yield lib.queryStation('Previous station (can be empty)?')
 	try {
 		previousStation = yield lib.parseStation(previousStation)
 	} catch (err) {
@@ -73,7 +71,7 @@ const main = so(function* (opt) {
 	}
 
 	// query nextStation
-	nextStation = yield lib.queryStation('Next station (can be empty)?')
+	let nextStation = yield lib.queryStation('Next station (can be empty)?')
 	try {
 		nextStation = yield lib.parseStation(nextStation)
 	} catch (err) {
@@ -81,15 +79,22 @@ const main = so(function* (opt) {
 	}
 
 	// query colors
-	colors = yield lib.queryColors('Pattern color (multiple selections allowed)?')
+	let colors = []
+	let color = yield lib.queryColor('First color (ordered by decreasing share)?')
 	try {
-		colors = lib.parseColors(colors)
+		color = lib.parseNotNullColor(color)
+		colors.push(color)
 	} catch (err) {
 		showError(err)
 	}
+	while(color){
+		color = yield lib.queryColor('Another color (ordered by decreasing share, leave empty to finish)?')
+		color = lib.parseColor(color)
+		if(color) colors.push(color)
+	}
 
 	// query image source
-	source = yield lib.queryImageSource('Pattern image source?')
+	let source = yield lib.queryImageSource('Pattern image source?')
 
 	let image = null
 	// commons
