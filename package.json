@@ -1,7 +1,7 @@
 {
 	"name": "vbb-platform-patterns-cli",
 	"description": "CLI for editing vbb-platform-patterns.",
-	"version": "0.2.1",
+	"version": "0.2.2",
 	"keywords": [
 		"vbb",
 		"berlin",
@@ -43,7 +43,7 @@
 	"dependencies": {
 		"chalk": "^2.3.2",
 		"cli-autocomplete": "^0.4.1",
-		"closest-css-color": "^0.1.0",
+		"closest-css-color": "^0.1.1",
 		"css-color-names": "0.0.4",
 		"is-hexcolor": "^1.0.0",
 		"is-url": "^1.2.2",
