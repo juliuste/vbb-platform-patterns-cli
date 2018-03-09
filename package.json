@@ -1,7 +1,7 @@
 {
 	"name": "vbb-platform-patterns-cli",
 	"description": "CLI for editing vbb-platform-patterns.",
-	"version": "0.2.2",
+	"version": "0.3.0",
 	"keywords": [
 		"vbb",
 		"berlin",
@@ -43,7 +43,6 @@
 	"dependencies": {
 		"chalk": "^2.3.2",
 		"cli-autocomplete": "^0.4.1",
-		"closest-css-color": "^0.1.1",
 		"css-color-names": "0.0.4",
 		"is-hexcolor": "^1.0.0",
 		"is-url": "^1.2.2",
@@ -54,6 +53,7 @@
 		"mri": "^1.1.0",
 		"multiselect-prompt": "^0.3.1",
 		"select-prompt": "^0.3.1",
+		"shorten-hex-color": "0.0.0",
 		"so": "^1.0.1",
 		"text-prompt": "^0.1.2",
 		"vbb-client": "^3.0.1",

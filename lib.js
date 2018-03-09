@@ -14,7 +14,7 @@ const sortBy = require('lodash.sortby')
 const pick = require('lodash.pick')
 const isURL = require('is-url')
 const isHexcolor = require('is-hexcolor')
-const closest = require('closest-css-color')
+const shorten = require('shorten-hex-color')
 
 // STATIONS
 const isStationId = (s) => /^\d{12}$/.test(s.toString())
@@ -89,11 +89,11 @@ const parseLines = (l) => {
 const parseColor = (c) => {
 	if(!c) return null
 	if(!isHexcolor(c)) throw new Error('Invalid color')
-	return closest(c)
+	return shorten(c)
 }
 const parseNotNullColor = (c) => {
 	if(!c || !isHexcolor(c)) throw new Error('Invalid color')
-	return closest(c)
+	return shorten(c)
 }
 const queryColor = (msg) => new Promise((yay, nay) =>
 	textPrompt(msg)
